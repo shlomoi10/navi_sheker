@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0079)file:///C:/Users/%D7%95%D7%95%D7%9C%D7%A3/source/repos/Solution1/HTMLPage4.html -->
-<html lang="he"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>נביא השקר</title>
+    <link rel="icon" href="https://shlomoi10.github.io/my-html-project/favicon.ico">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -102,6 +103,11 @@
     </style>
 </head>
 <body>
+    <header>
+        <a href="https://shlomoi10.github.io/my-html-project/">
+            <img src="https://shlomoi10.github.io/my-html-project/logo.png" alt="Logo" style="width: 50px; height: 50px;">
+        </a>
+    </header>
     <h1>נביא השקר</h1>
     <p>רוצים לשאול שאלה? תקראו לי</p>
     <p>
@@ -116,7 +122,7 @@
         <input type="text" id="inputText" autocomplete="off" placeholder=""><br>
         <label for="questionText">ובכן מה השאלה?</label><br>
         <input type="text" id="questionText" autocomplete="off"><br>
-        <button type="button" id="revealButton" onclick="revealText()" disabled="">תשובה</button>
+        <button type="button" id="revealButton" onclick="revealText()" disabled>תשובה</button>
     </form>
     <p id="originalText" class="hidden"></p>
 
@@ -131,20 +137,31 @@
         const magicText = 'נביא השקר האם תוכל לענות לי?';
         const randomResponses = [
             'מה אתה רוצה ממני?',
-            'לך אני לא עונה',
-'אני נביא שקר, אתם רוצים לשמוע את האמת?',
-'אני עסוק עכשיו',
-'דברו איתך בהמשך',
-'זמן מלחמה, אין לי זמן לשאלות שלך',
-'אני באמצע ישיבת קבינט דחופה, נדבר',
-'אני במילואים, אין לי כח לשאלות מיותרות'
+            'לך אני לא עונה'
         ];
+        let magicChar = '';
+
+        function isAndroid() {
+            return /Android/i.test(navigator.userAgent);
+        }
+
+        function adjustForDevice() {
+            if (isAndroid()) {
+                // שינוי קוד עבור מכשירי אנדרואיד
+                console.log("מכשיר אנדרואיד זוהה");
+                magicChar = '.';
+            } else {
+                // שינוי קוד עבור מחשבים
+                console.log("מחשב זוהה");
+                magicChar = '[';
+            }
+        }
 
         input.addEventListener('input', (event) => {
             const value = event.target.value;
             const lastChar = value.slice(-1);
 
-            if (!isMagicMode && lastChar === '[') {
+            if (!isMagicMode && lastChar === magicChar) {
                 isMagicMode = true;
                 originalContent = value.slice(0, -1);
                 input.value = '';
@@ -181,7 +198,9 @@
             }
             originalText.classList.remove('hidden');
         }
+
+        // קריאה לפונקציה להתאמת הקוד בהתאם לסוג המכשיר
+        adjustForDevice();
     </script>
-
-
-</body></html>
+</body>
+</html>
