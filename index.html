@@ -11,20 +11,62 @@
     <title>נביא השקר</title>
     <link rel="icon" href="https://shlomoi10.github.io/navi_sheker/logo.png">
     <style>
-        input[type="text"], textarea {
-            font-family: 'Open Sans', sans-serif;
-        }
-        input[type="text"], textarea, button {
-            font-family: 'Open Sans', sans-serif;
-        }
-
         body {
             font-family: 'Heebo', sans-serif;
             direction: rtl;
             text-align: center;
-            background-color: #f0f0f0;
+            background: linear-gradient(to right, #ece9e6, #ffffff);
             padding: 20px;
+            color: #333;
+            position: relative;
         }
+
+        h1 {
+            font-size: 2.5em;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.2em;
+        }
+
+        input[type="text"], textarea, button {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        input[type="text"], textarea {
+            width: 80%;
+            padding: 12px 20px;
+            margin: 10px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button {
+            width: 30%;
+            background-color: #007bff;
+            color: white;
+            padding: 8px 12px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+            button:disabled {
+                background-color: #aaa;
+                cursor: not-allowed;
+            }
+
+            button:hover:enabled {
+                background-color: #0056b3;
+            }
 
         .hidden {
             display: none;
@@ -35,27 +77,28 @@
             display: inline-block;
         }
 
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 200px;
-            background-color: black;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -100px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 220px;
+                background-color: black;
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 10px;
+                position: absolute;
+                z-index: 1;
+                bottom: 125%;
+                left: 50%;
+                margin-left: -110px;
+                opacity: 0;
+                transition: opacity 0.3s;
+                font-size: 14px;
+            }
 
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+                opacity: 1;
+            }
 
         .info-icon {
             width: 16px;
@@ -71,41 +114,23 @@
             margin-left: 5px;
         }
 
-        #inputText, #questionText {
-            width: 80%;
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        #revealButton {
-            padding: 10px 20px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        #revealButton:disabled {
-            background-color: #aaa;
-            cursor: not-allowed;
-        }
-
         #originalText {
             width: 80%;
             margin: 20px auto;
-            padding: 10px;
+            padding: 20px;
             border: 1px solid #ccc;
             border-radius: 4px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             font-size: 18px;
+            transition: opacity 0.5s ease;
+            opacity: 0;
         }
+
+            #originalText.visible {
+                opacity: 1;
+                animation: blink 1s ease-in-out infinite alternate;
+            }
 
         form {
             display: flex;
@@ -126,6 +151,24 @@
             font-size: 14px;
         }
 
+        #tryAgainButton {
+            display: none;
+            width: 40%;
+            background-color: #28a745;
+            color: white;
+            padding: 8px 12px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+            #tryAgainButton:hover {
+                background-color: #218838;
+            }
+
         /* Overlay styles */
         #overlay {
             display: none;
@@ -134,7 +177,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.8);
             border-radius: 10px;
             z-index: 9999;
             text-align: center;
@@ -165,6 +208,35 @@
                 transform: rotate(360deg);
             }
         }
+
+        @keyframes blink {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Glitter Trail */
+        .glitter-trail {
+            position: absolute;
+            pointer-events: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
+            box-shadow: 0 0 10px 10px rgba(255,255,255,0.5);
+            animation: fadeOut 1s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
     </style>
 </head>
 <body>
@@ -190,8 +262,9 @@
         <label for="questionText">ובכן מה השאלה?</label><br>
         <input type="text" id="questionText" autocomplete="off" onkeydown="handleEnter(event)"><br>
         <button type="button" id="revealButton" onclick="revealText()" disabled>תשובה</button>
+        <p id="originalText" class="hidden"></p>
+        <button type="button" id="tryAgainButton" onclick="resetMagic()">רוצים לנסות שוב?</button>
     </form>
-    <p id="originalText" class="hidden"></p>
 
     <!-- Overlay elements -->
     <div id="overlay">
@@ -204,6 +277,7 @@
         const questionInput = document.getElementById('questionText');
         const originalText = document.getElementById('originalText');
         const revealButton = document.getElementById('revealButton');
+        const tryAgainButton = document.getElementById('tryAgainButton');
         const overlayText = document.getElementById('overlay-text');
         const errorText1 = document.getElementById('errorText1');
         const errorText2 = document.getElementById('errorText2');
@@ -215,11 +289,10 @@
             'מה אתה רוצה ממני?',
             'לך אני לא עונה',
             'אני נביא שקר, אתם רוצים לשמוע את האמת?',
-            'אני עסוק עכשיו',
-            'דברו איתך בהמשך',
-            'זמן מלחמה, אין לי זמן לשאלות שלך',
-            'אני באמצע ישיבת קבינט דחופה, נדבר',
-            'אני במילואים, אין לי כח לשאלות מיותרות'
+            'אני עסוק מדי בשבילך',
+            'תשובה אחרת',
+            'אני נביא אמת, לא שקר. תחפש מישהו אחר',
+            'אין לי כח לשאלות מיותרות'
         ];
         const overlayMessages = [
             'הנביא בפעולה...',
@@ -234,11 +307,9 @@
 
         function adjustForDevice() {
             if (isAndroid()) {
-                // שינוי קוד עבור מכשירי אנדרואיד
                 console.log("מכשיר אנדרואיד זוהה");
                 magicChar = '.';
             } else {
-                // שינוי קוד עבור מחשבים
                 console.log("מחשב זוהה");
                 magicChar = '[';
             }
@@ -246,17 +317,17 @@
 
         input.addEventListener('input', (event) => {
             const value = event.target.value;
-            const lastChar = value.slice(-1);
+            const firstChar = value.charAt(0);
 
-            if (!isMagicMode && lastChar === magicChar) {
+            if (!isMagicMode && (firstChar === magicChar || firstChar === '.')) {
                 isMagicMode = true;
-                originalContent = value.slice(0, -1);
+                originalContent = '';
                 input.value = '';
                 return;
             }
 
             if (isMagicMode) {
-                originalContent += lastChar;
+                originalContent += value.charAt(value.length - 1);
                 input.value = magicText.slice(0, originalContent.length);
             }
 
@@ -309,6 +380,8 @@
                     originalText.textContent = randomResponses[Math.floor(Math.random() * randomResponses.length)];
                 }
                 originalText.classList.remove('hidden');
+                originalText.classList.add('visible');
+                showTryAgainButton();
             }, 2000);
         }
 
@@ -323,8 +396,37 @@
             }
         }
 
-        // קריאה לפונקציה להתאמת הקוד בהתאם לסוג המכשיר
+        function showTryAgainButton() {
+            setTimeout(() => {
+                tryAgainButton.style.display = 'block';
+            }, 5000);
+        }
+
+        function resetMagic() {
+            input.value = '';
+            questionInput.value = '';
+            originalText.textContent = '';
+            originalText.classList.remove('visible');
+            originalText.classList.add('hidden');
+            tryAgainButton.style.display = 'none';
+            isMagicMode = false;
+            originalContent = '';
+            toggleRevealButton();
+        }
+
         adjustForDevice();
+
+        // Glitter trail effect
+        document.addEventListener('mousemove', function (e) {
+            const glitter = document.createElement('div');
+            glitter.className = 'glitter-trail';
+            glitter.style.top = `${e.clientY}px`;
+            glitter.style.left = `${e.clientX}px`;
+            document.body.appendChild(glitter);
+            setTimeout(() => {
+                glitter.remove();
+            }, 1000);
+        });
     </script>
 </body>
 </html>
