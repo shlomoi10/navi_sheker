@@ -19,6 +19,7 @@
             padding: 20px;
             color: #333;
             position: relative;
+            cursor: none; /* הסתרת סמן העכבר */
         }
 
         h1 {
@@ -399,7 +400,7 @@
         function showTryAgainButton() {
             setTimeout(() => {
                 tryAgainButton.style.display = 'block';
-            }, 3500);
+            }, 5000);
         }
 
         function resetMagic() {
@@ -426,6 +427,16 @@
             setTimeout(() => {
                 glitter.remove();
             }, 1000);
+
+            // יצירת סמן עכבר מותאם אישית
+            const cursor = document.createElement('div');
+            cursor.className = 'custom-cursor';
+            cursor.style.top = `${e.clientY}px`;
+            cursor.style.left = `${e.clientX}px`;
+            document.body.appendChild(cursor);
+            setTimeout(() => {
+                cursor.remove();
+            }, 500);
         });
     </script>
 </body>
