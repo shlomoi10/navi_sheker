@@ -52,10 +52,11 @@
         }
 
         svg {
-            width: 7%; /* התאמת הגודל הרצוי - ככל שהאחוז קטן יותר, כך האנימציה קטנה יותר */
+            width: 50px;
+            height: 50px;
             position: absolute;
-            top: 8vh; /* מרחק מהחלק העליון של המסך */
-            left: 6vw; /* מרחק מהחלק השמאלי של המסך */
+            top: 38px;
+            left: 40px;
             /* אין צורך יותר בשינוי ה-transform */
             overflow: visible;
         }
@@ -238,17 +239,24 @@
             font-family: 'Heebo', sans-serif;
             direction: rtl;
             text-align: center;
-            background: linear-gradient(to right, #6a85b6, #bac8e0); /* צבע רקע בהיר יותר */
-            padding: 20px;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
             color: #333;
             position: relative;
             cursor: url('https://shlomoi10.github.io/navi_sheker/achbar2.webp') 0 0, auto; /* שינוי מיקום סמן העכבר */
         }
 
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
         h1 {
+            font-family: 'Heebo', sans-serif;
             font-size: 2.5em;
-            color: #fff;
-            margin-bottom: 10px;
         }
 
         p {
@@ -272,15 +280,13 @@
         }
 
         button {
-            width: 25%;
-            background-color: #007bff;
+            background-color: #4CAF50;
             color: white;
-            padding: 8px 12px;
-            margin: 8px 0;
             border: none;
-            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 1em;
             cursor: pointer;
-            font-size: 14px;
+            border-radius: 5px;
             transition: background-color 0.3s;
         }
 
@@ -290,7 +296,7 @@
             }
 
             button:hover:enabled {
-                background-color: #0056b3;
+                background-color: #45a049;
             }
 
         .hidden {
@@ -338,9 +344,17 @@
             cursor: pointer;
             margin-left: 5px;
         }
-
+        #answerContainer {
+            background-color: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            font-size: 1.2em;
+        }
         #originalText {
-            width: 80%;
+            width: 78%;
             margin: 20px auto;
             padding: 20px;
             border: 1px solid #ccc;
@@ -357,18 +371,23 @@
                 animation: blink 1s ease-in-out infinite alternate;
             }
 
+        label {
+            font-size: 1.2em;
+        }
+
         form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 78%;
         }
 
         #logo {
-            position: absolute;
-            top: 10px;
-            right: 10px;
             width: 50px;
-            height: 50px;
+            height: auto;
         }
 
         .error {
@@ -379,11 +398,10 @@
 
         #tryAgainButton {
             display: none;
-            width: 25%;
+            /*  width: 25%;*/
             background-color: #28a745;
             color: white;
-            padding: 8px 12px;
-            margin: 8px 0;
+            margin: 20px auto;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -539,9 +557,10 @@
             <span id="errorText1" class="error hidden">אתה מזלזל בי</span>
             <span id="errorText2" class="error hidden">יש צורה איך מבקשים</span><br>
             <button type="button" id="revealButton" onclick="revealText()" disabled>תשובה</button>
+        </form>
             <p id="originalText" class="hidden"></p>
             <button type="button" id="tryAgainButton" onclick="resetMagic()">רוצים לנסות שוב?</button>
-        </form>
+        
 
         <!-- Overlay elements -->
         <div id="overlay">
