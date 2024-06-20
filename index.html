@@ -354,7 +354,7 @@
             font-size: 1.2em;
         }
         #originalText {
-            width: 78%;
+            width: fit-content;
             margin: 20px auto;
             padding: 20px;
             border: 1px solid #ccc;
@@ -481,7 +481,7 @@
                 transform: scale(0.5);
             }
         }
-        }
+        
 
         a:hover::after {
             content: "רוצים להיות קוסמים מורשים?";
@@ -532,6 +532,7 @@
                 </g>
             </g>
         </svg>
+        </a>
         <header>
             <a href="https://shlomoi10.github.io/navi_sheker/">
                 <img id="logo" src="https://shlomoi10.github.io/navi_sheker/logo.png" alt="Wizard Logo">
@@ -558,9 +559,9 @@
             <span id="errorText2" class="error hidden">יש צורה איך מבקשים</span><br>
             <button type="button" id="revealButton" onclick="revealText()" disabled>תשובה</button>
         </form>
-            <p id="originalText" class="hidden"></p>
-            <button type="button" id="tryAgainButton" onclick="resetMagic()">רוצים לנסות שוב?</button>
-        
+        <p id="originalText" class="hidden"></p>
+        <button type="button" id="tryAgainButton" onclick="resetMagic()">רוצים לנסות שוב?</button>
+
 
         <!-- Overlay elements -->
         <div id="overlay">
