@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="he">
 <head>
@@ -365,6 +364,8 @@
             font-size: 18px;
             transition: opacity 0.5s ease;
             opacity: 0;
+            position: relative; /* מאפשר שימוש ב-z-index */
+            z-index: 11; /* מעל השקופית */
         }
 
             #originalText.visible {
@@ -408,6 +409,8 @@
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s;
+            position: relative; /* מאפשר שימוש ב-z-index */
+            z-index: 11; /* מעל השקופית */
         }
 
             #tryAgainButton:hover {
@@ -415,6 +418,17 @@
             }
 
         /* Overlay styles */
+        #overlay-dark {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* שינוי הרקע לחושך */
+            z-index: 8; /* קצת פחות מאשר ה-overlay המקורי */
+        }
+
         #overlay {
             display: none;
             position: fixed;
@@ -424,9 +438,10 @@
             padding: 20px;
             background-color: rgba(0, 0, 0, 0.8);
             border-radius: 10px;
-            z-index: 9999;
+            z-index: 9;
             text-align: center;
         }
+
 
         #overlay-text {
             color: white;
@@ -533,174 +548,229 @@
                 </g>
             </g>
         </svg>
+    </a>
+    <header>
+        <a href="https://shlomoi10.github.io/navi_sheker/">
+            <img id="logo" src="https://shlomoi10.github.io/navi_sheker/logo.png" alt="Wizard Logo">
         </a>
-        <header>
-            <a href="https://shlomoi10.github.io/navi_sheker/">
-                <img id="logo" src="https://shlomoi10.github.io/navi_sheker/logo.png" alt="Wizard Logo">
-            </a>
-        </header>
-        <h1>נביא השקר</h1>
-        <p>רוצים לשאול שאלה? נסו אותי</p>
-        <form id="magicForm">
-            <label for="questionText">ובכן מה השאלה?</label><br>
-            <input type="text" id="questionText" autocomplete="off"><br>
-            <p>רוצים תשובה לשאלה? תקראו לי</p>
-            <p>
-                יש לקרוא לי ע"י:
-                <span class="tooltip">
-                    נביא השקר האם תוכל לענות לי?
-                    <span class="info-icon">
-                        i
-                        <span class="tooltiptext">מידי פעם אפשר לקרוא לי רק עם "נביא השקר". שימו לב לא להגזים, זה מזלזל בי</span>
-                    </span>
+    </header>
+    <h1>נביא השקר</h1>
+    <p>רוצים לשאול שאלה? נסו אותי</p>
+    <form id="magicForm">
+        <label for="questionText">ובכן מה השאלה?</label><br>
+        <input type="text" id="questionText" autocomplete="off"><br>
+        <p>רוצים תשובה לשאלה? תקראו לי</p>
+        <p>
+            יש לקרוא לי ע"י:
+            <span class="tooltip">
+                נביא השקר האם תוכל לענות לי?
+                <span class="info-icon">
+                    i
+                    <span class="tooltiptext">מידי פעם אפשר לקרוא לי רק עם "נביא השקר". שימו לב לא להגזים, זה מזלזל בי</span>
                 </span>
-            </p>
-            <input type="text" id="inputText" autocomplete="off" placeholder="" onkeydown="handleEnter(event)"><br>
-            <span id="errorText1" class="error hidden">אתה מזלזל בי</span>
-            <span id="errorText2" class="error hidden">יש צורה איך מבקשים</span><br>
-            <div class="error" id="errorMessage"></div>
-            <button type="button" id="revealButton" onclick="revealText()" disabled>תשובה</button>
+            </span>
+        </p>
+        <input type="text" id="inputText" autocomplete="off" placeholder="" onkeydown="handleEnter(event)"><br>
+        <span id="errorText1" class="error hidden">אתה מזלזל בי</span>
+        <span id="errorText2" class="error hidden">יש צורה איך מבקשים</span><br>
+        <div class="error" id="errorMessage"></div>
+        <button type="button" id="revealButton" onclick="revealText()" disabled>תשובה</button>
 
-        </form>
-        <p id="originalText" class="hidden"></p>
-        <button type="button" id="tryAgainButton" onclick="resetMagic()">רוצים לנסות שוב?</button>
-
-
-        <!-- Overlay elements -->
-        <div id="overlay">
-            <div class="loader"></div>
-            <p id="overlay-text"></p>
-        </div>
-
-        <script>
-            const links = [
-                'https://mitmachim.top/post/808044',
-                'https://www.prog.co.il/threads/%D7%9E%D7%A9%D7%97%D7%A7-%D7%A0%D7%91%D7%99%D7%90-%D7%94%D7%A9%D7%A7%D7%A8-%D7%A0%D7%95%D7%A6%D7%A8-%D7%9B%D7%95%D7%9C%D7%95-%D7%A2-%D7%99-ai.980179/'
-            ];
-            const randomLink = links[Math.floor(Math.random() * links.length)];
-            document.getElementById('magicLink').href = randomLink;
-            const input = document.getElementById('inputText');
-            const questionInput = document.getElementById('questionText');
-            const revealButton = document.getElementById('revealButton');
-            const originalText = document.getElementById('originalText');
-            const tryAgainButton = document.getElementById('tryAgainButton');
-            const overlayText = document.getElementById('overlay-text');
-            const errorText1 = document.getElementById('errorText1');
-            const errorText2 = document.getElementById('errorText2');
+    </form>
 
 
+    <!-- Overlay elements -->
+    <div id="overlay">
+        <div class="loader"></div>
+        <p id="overlay-text"></p>
+    </div>
 
-            inputText.addEventListener('input', () => {
-                revealButton.disabled = inputText.value.trim() === '';
-                errorMessage.textContent = '';
-            });
-
-            inputText.addEventListener('paste', (e) => {
-                e.preventDefault();
-                errorMessage.textContent = 'אם יש משהו שאני בטוח יודע זה שניסיתם להדביק, אפילו להקליד אין לכם כח? אני עלול להיפגע';
-            });
+    <div id="overlay-dark"></div>
+    <p id="originalText" class="hidden"></p>
+    <button type="button" id="tryAgainButton" onclick="resetMagic()">רוצים לנסות שוב?</button>
 
 
-            let originalContent = '';
-            let isMagicMode = false;
-            const magicText = 'נביא השקר האם תוכל לענות לי?';
-            const randomResponses = [
-                'מה אתה רוצה ממני?',
-                'לך אני לא עונה',
-                'אני נביא שקר, אתם רוצים לשמוע את האמת?',
-                'אני עסוק מדי בשבילך',
-                'תשובה אחרת',
-                'אני נביא אמת, לא שקר. תחפש מישהו אחר',
-                'אין לי כח לשאלות מיותרות',
-                'אני עסוק בלרמות אנשים, אין לי זמן לעזור לך.',
-                'עזוב אותי בשקט, יש לי נבואות לחזות.',
-                'תגידו, אני נראה לכם משועמם?'
-            ];
-            const overlayMessages = [
-                'הנביא בפעולה...',
-                'ביקשת כל כך יפה...',
-                'בלי לחץ...',
-                'הנביא ממציא תשובות',
-                'שניה נכנס למאגר נתונים'
-            ];
-            let magicChar = '';
+    <script>
+        const links = [
+            'https://mitmachim.top/post/808044',
+            'https://www.prog.co.il/threads/%D7%9E%D7%A9%D7%97%D7%A7-%D7%A0%D7%91%D7%99%D7%90-%D7%94%D7%A9%D7%A7%D7%A8-%D7%A0%D7%95%D7%A6%D7%A8-%D7%9B%D7%95%D7%9C%D7%95-%D7%A2-%D7%99-ai.980179/'
+        ];
+        const randomLink = links[Math.floor(Math.random() * links.length)];
+        document.getElementById('magicLink').href = randomLink;
+        const input = document.getElementById('inputText');
+        const questionInput = document.getElementById('questionText');
+        const revealButton = document.getElementById('revealButton');
+        const originalText = document.getElementById('originalText');
+        const tryAgainButton = document.getElementById('tryAgainButton');
+        const overlayText = document.getElementById('overlay-text');
+        const errorText1 = document.getElementById('errorText1');
+        const errorText2 = document.getElementById('errorText2');
 
-            function isAndroid() {
-                return /Android/i.test(navigator.userAgent);
+
+
+        inputText.addEventListener('input', () => {
+            revealButton.disabled = inputText.value.trim() === '';
+            errorMessage.textContent = '';
+        });
+
+        inputText.addEventListener('paste', (e) => {
+            e.preventDefault();
+            errorMessage.textContent = 'אם יש משהו שאני בטוח יודע זה שניסיתם להדביק, אפילו להקליד אין לכם כח? אני עלול להיפגע';
+        });
+
+
+        let originalContent = '';
+        let isMagicMode = false;
+        const magicText = 'נביא השקר האם תוכל לענות לי?';
+        const randomResponses = [
+            'מה אתה רוצה ממני?',
+            'לך אני לא עונה',
+            'אני נביא שקר, אתם רוצים לשמוע את האמת?',
+            'אני עסוק מדי בשבילך',
+            'תשובה אחרת',
+            'אני נביא אמת, לא שקר. תחפש מישהו אחר',
+            'אין לי כח לשאלות מיותרות',
+            'אני עסוק בלרמות אנשים, אין לי זמן לעזור לך.',
+            'עזוב אותי בשקט, יש לי נבואות לחזות.',
+            'תגידו, אני נראה לכם משועמם?'
+        ];
+        const overlayMessages = [
+            'הנביא בפעולה...',
+            'ביקשת כל כך יפה...',
+            'בלי לחץ...',
+            'הנביא ממציא תשובות',
+            'שניה נכנס למאגר נתונים'
+        ];
+        let magicChar = '';
+
+        function isAndroid() {
+            return /Android/i.test(navigator.userAgent);
+        }
+
+
+
+        function adjustForDevice() {
+            if (isAndroid()) {
+                console.log("מכשיר אנדרואיד זוהה");
+                magicChar = '.';
+            } else {
+                console.log("מחשב זוהה");
+                magicChar = '[';
+            }
+        }
+
+        input.addEventListener('input', (event) => {
+            const value = event.target.value;
+            const firstChar = value.charAt(0);
+
+            if (!isMagicMode && (firstChar === magicChar || firstChar === '.')) {
+                isMagicMode = true;
+                originalContent = '';
+                input.value = '';
+                return;
             }
 
-
-
-            function adjustForDevice() {
-                if (isAndroid()) {
-                    console.log("מכשיר אנדרואיד זוהה");
-                    magicChar = '.';
-                } else {
-                    console.log("מחשב זוהה");
-                    magicChar = '[';
-                }
+            if (isMagicMode) {
+                originalContent += value.charAt(value.length - 1);
+                input.value = magicText.slice(0, originalContent.length);
             }
 
-            input.addEventListener('input', (event) => {
-                const value = event.target.value;
-                const firstChar = value.charAt(0);
+            toggleRevealButton();
+        });
 
-                if (!isMagicMode && (firstChar === magicChar || firstChar === '.')) {
-                    isMagicMode = true;
-                    originalContent = '';
-                    input.value = '';
-                    return;
-                }
+        input.addEventListener('keydown', (event) => {
+            if (isMagicMode && event.key === 'Backspace') {
+                originalContent = originalContent.slice(0, -1);
+                input.value = magicText.slice(0, originalContent.length);
+                event.preventDefault();
+            }
+        });
 
-                if (isMagicMode) {
-                    originalContent += value.charAt(value.length - 1);
-                    input.value = magicText.slice(0, originalContent.length);
-                }
+        questionInput.addEventListener('input', toggleRevealButton);
 
-                toggleRevealButton();
-            });
+        function toggleRevealButton() {
+            revealButton.disabled = !(input.value.length > 0 && questionInput.value.length > 0);
+        }
 
-            input.addEventListener('keydown', (event) => {
-                if (isMagicMode && event.key === 'Backspace') {
-                    originalContent = originalContent.slice(0, -1);
-                    input.value = magicText.slice(0, originalContent.length);
-                    event.preventDefault();
-                }
-            });
+        function validateInput(value) {
+            if (!value.startsWith('נביא השקר')) {
+                errorText1.classList.remove('hidden');
+                errorText2.classList.add('hidden');
+                return false;
+            } else if (value !== 'נביא השקר' && value !== 'נביא השקר האם תוכל לענות לי?') {
+                errorText1.classList.add('hidden');
+                errorText2.classList.remove('hidden');
+                return false;
+            } else {
+                errorText1.classList.add('hidden');
+                errorText2.classList.add('hidden');
+                return true;
+            }
+        }
 
-            questionInput.addEventListener('input', toggleRevealButton);
 
-            function toggleRevealButton() {
-                revealButton.disabled = !(input.value.length > 0 && questionInput.value.length > 0);
+        function showOverlay() {
+            overlayText.textContent = overlayMessages[Math.floor(Math.random() * overlayMessages.length)];
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function handleEnter(event) {
+            if (event.key === 'Enter' && !revealButton.disabled) {
+                revealText();
+            }
+        }
+
+        function showTryAgainButton() {
+            if (tryAgainButton.style.display !== 'block') {
+                setTimeout(() => {
+                    tryAgainButton.style.display = 'block';
+                    tryAgainButton.scrollIntoView({ behavior: "smooth" });
+                }, 2500);
+            }
+        }
+
+
+
+
+        adjustForDevice();
+
+        // Glitter trail effect
+        document.addEventListener('mousemove', function (e) {
+            const glitter = document.createElement('div');
+            glitter.className = 'glitter-trail';
+            // שינוי מיקום השובל לצד ימין למעלה של הסמן
+            glitter.style.top = `${e.clientY - 10}px`; // 10 פיקסלים למעלה מהסמן
+            glitter.style.left = `${e.clientX + 0}px`; // 10 פיקסלים ימינה מהסמן
+            document.body.appendChild(glitter);
+            setTimeout(() => {
+                glitter.remove();
+            }, 1000);
+        });
+
+
+        const overlayDark = document.getElementById('overlay-dark');
+
+        function showDarkOverlay() {
+            overlayDark.style.display = 'block';
+        }
+
+        function hideDarkOverlay() {
+            overlayDark.style.display = 'none';
+        }
+
+        function revealText() {
+            const inputValue = input.value;
+            if (!validateInput(inputValue)) {
+                originalText.classList.add('hidden');
+                return;
             }
 
-            function validateInput(value) {
-                if (!value.startsWith('נביא השקר')) {
-                    errorText1.classList.remove('hidden');
-                    errorText2.classList.add('hidden');
-                    return false;
-                } else if (value !== 'נביא השקר' && value !== 'נביא השקר האם תוכל לענות לי?') {
-                    errorText1.classList.add('hidden');
-                    errorText2.classList.remove('hidden');
-                    return false;
-                } else {
-                    errorText1.classList.add('hidden');
-                    errorText2.classList.add('hidden');
-                    return true;
-                }
-            }
-
-            function revealText() {
-                const inputValue = input.value;
-                if (!validateInput(inputValue)) {
-                    originalText.classList.add('hidden');
-                    return;
-                }
-
-                revealButton.disabled = true; // נטרול לחצן התשובה
-                showOverlay();
+            revealButton.disabled = true; // נטרול לחצן התשובה
+            showOverlay();
+            setTimeout(function () {
+                document.getElementById('overlay').style.display = 'none';
+                showDarkOverlay(); // הצגת ה-overlay המחשיך אחרי שהשקופית המקורית נעלמת
                 setTimeout(function () {
-                    document.getElementById('overlay').style.display = 'none';
                     if (isMagicMode) {
                         originalText.textContent = originalContent;
                     } else {
@@ -710,63 +780,27 @@
                     originalText.classList.add('visible');
                     revealButton.disabled = false; // החזרת לחצן התשובה לפעולה
                     showTryAgainButton();
-                }, 2000);
-            }
+                    showDarkOverlay(); // הסתרת ה-overlay המחשיך
+                }, 500); // זמן ההמתנה לפני הצגת התשובה
+            }, 3000); // זמן ההמתנה לפני שהשקופית המקורית נעלמת
+        }
 
-            function showOverlay() {
-                overlayText.textContent = overlayMessages[Math.floor(Math.random() * overlayMessages.length)];
-                document.getElementById('overlay').style.display = 'block';
-            }
+        function resetMagic() {
+            input.value = '';
+            questionInput.value = '';
+            originalText.textContent = '';
+            originalText.classList.remove('visible');
+            originalText.classList.add('hidden');
+            tryAgainButton.style.display = 'none';
+            isMagicMode = false;
+            originalContent = '';
+            toggleRevealButton();
+            hideDarkOverlay(); // הסתרת ה-overlay המחשיך
 
-            function handleEnter(event) {
-                if (event.key === 'Enter' && !revealButton.disabled) {
-                    revealText();
-                }
-            }
-
-            function showTryAgainButton() {
-                if (tryAgainButton.style.display !== 'block') {
-                    setTimeout(() => {
-                        tryAgainButton.style.display = 'block';
-                        tryAgainButton.scrollIntoView({ behavior: "smooth" });
-                    }, 5000);
-                }
-            }
-
-            function resetMagic() {
-                input.value = '';
-                questionInput.value = '';
-                originalText.textContent = '';
-                originalText.classList.remove('visible');
-                originalText.classList.add('hidden');
-                tryAgainButton.style.display = 'none';
-                isMagicMode = false;
-                originalContent = '';
-                toggleRevealButton();
-
-
-            }
             setTimeout(function () {
                 window.scrollTo(0, document.body.scrollHeight);
-            }, 6000); // 3000 milliseconds = 3 seconds
-
-
-
-            adjustForDevice();
-
-            // Glitter trail effect
-            document.addEventListener('mousemove', function (e) {
-                const glitter = document.createElement('div');
-                glitter.className = 'glitter-trail';
-                // שינוי מיקום השובל לצד ימין למעלה של הסמן
-                glitter.style.top = `${e.clientY - 10}px`; // 10 פיקסלים למעלה מהסמן
-                glitter.style.left = `${e.clientX + 0}px`; // 10 פיקסלים ימינה מהסמן
-                document.body.appendChild(glitter);
-                setTimeout(() => {
-                    glitter.remove();
-                }, 1000);
-            });
-
-        </script>
+            }, 2700); // 3000 milliseconds = 3 seconds
+        }
+    </script>
 </body>
 </html>
