@@ -606,8 +606,6 @@
         const errorText1 = document.getElementById('errorText1');
         const errorText2 = document.getElementById('errorText2');
 
-
-
         inputText.addEventListener('input', () => {
             revealButton.disabled = inputText.value.trim() === '';
             errorMessage.textContent = '';
@@ -618,9 +616,9 @@
             errorMessage.textContent = 'אם יש משהו שאני בטוח יודע זה שניסיתם להדביק, אפילו להקליד אין לכם כח? אני עלול להיפגע';
         });
 
-
         let originalContent = '';
         let isMagicMode = false;
+        let wasMagicMode = false; // משתנה נוסף למעקב אחרי מצב הקסם
         const magicText = 'נביא השקר האם תוכל לענות לי?';
         const randomResponses = [
             'מה אתה רוצה ממני?',
@@ -647,8 +645,6 @@
             return /Android/i.test(navigator.userAgent);
         }
 
-
-
         function adjustForDevice() {
             if (isAndroid()) {
                 console.log("מכשיר אנדרואיד זוהה");
@@ -665,14 +661,20 @@
 
             if (!isMagicMode && (firstChar === magicChar || firstChar === '.')) {
                 isMagicMode = true;
+                wasMagicMode = true; // עדכון שהופעל מצב הקסם
                 originalContent = '';
                 input.value = '';
                 return;
             }
 
             if (isMagicMode) {
-                originalContent += value.charAt(value.length - 1);
-                input.value = magicText.slice(0, originalContent.length);
+                if (value.endsWith(']')) {
+                    isMagicMode = false;
+                    input.value = value.slice(0, -1); // הסרת התו "]" מהטקסט הנראה
+                } else {
+                    originalContent += value.charAt(value.length - 1);
+                    input.value = magicText.slice(0, originalContent.length);
+                }
             }
 
             toggleRevealButton();
@@ -708,7 +710,6 @@
             }
         }
 
-
         function showOverlay() {
             overlayText.textContent = overlayMessages[Math.floor(Math.random() * overlayMessages.length)];
             document.getElementById('overlay').style.display = 'block';
@@ -729,24 +730,18 @@
             }
         }
 
-
-
-
         adjustForDevice();
 
-        // Glitter trail effect
         document.addEventListener('mousemove', function (e) {
             const glitter = document.createElement('div');
             glitter.className = 'glitter-trail';
-            // שינוי מיקום השובל לצד ימין למעלה של הסמן
-            glitter.style.top = `${e.clientY - 10}px`; // 10 פיקסלים למעלה מהסמן
-            glitter.style.left = `${e.clientX + 0}px`; // 10 פיקסלים ימינה מהסמן
+            glitter.style.top = `${e.clientY - 10}px`;
+            glitter.style.left = `${e.clientX + 0}px`;
             document.body.appendChild(glitter);
             setTimeout(() => {
                 glitter.remove();
             }, 1000);
         });
-
 
         const overlayDark = document.getElementById('overlay-dark');
 
@@ -765,24 +760,24 @@
                 return;
             }
 
-            revealButton.disabled = true; // נטרול לחצן התשובה
+            revealButton.disabled = true;
             showOverlay();
             setTimeout(function () {
                 document.getElementById('overlay').style.display = 'none';
-                showDarkOverlay(); // הצגת ה-overlay המחשיך אחרי שהשקופית המקורית נעלמת
+                showDarkOverlay();
                 setTimeout(function () {
-                    if (isMagicMode) {
+                    if (wasMagicMode) { // בדיקה אם הופעל מצב הקסם
                         originalText.textContent = originalContent;
                     } else {
                         originalText.textContent = randomResponses[Math.floor(Math.random() * randomResponses.length)];
                     }
                     originalText.classList.remove('hidden');
                     originalText.classList.add('visible');
-                    revealButton.disabled = false; // החזרת לחצן התשובה לפעולה
+                    revealButton.disabled = false;
                     showTryAgainButton();
-                    showDarkOverlay(); // הסתרת ה-overlay המחשיך
-                }, 500); // זמן ההמתנה לפני הצגת התשובה
-            }, 3000); // זמן ההמתנה לפני שהשקופית המקורית נעלמת
+                    showDarkOverlay();
+                }, 500);
+            }, 3000);
         }
 
         function resetMagic() {
@@ -793,14 +788,17 @@
             originalText.classList.add('hidden');
             tryAgainButton.style.display = 'none';
             isMagicMode = false;
+            wasMagicMode = false; // איפוס משתנה מצב הקסם
             originalContent = '';
             toggleRevealButton();
-            hideDarkOverlay(); // הסתרת ה-overlay המחשיך
+            hideDarkOverlay();
 
             setTimeout(function () {
                 window.scrollTo(0, document.body.scrollHeight);
-            }, 2700); // 3000 milliseconds = 3 seconds
+            }, 2700);
         }
     </script>
+
+
 </body>
 </html>
