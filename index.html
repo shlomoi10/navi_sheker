@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="he">
 <head>
@@ -557,7 +558,9 @@
             <input type="text" id="inputText" autocomplete="off" placeholder="" onkeydown="handleEnter(event)"><br>
             <span id="errorText1" class="error hidden">אתה מזלזל בי</span>
             <span id="errorText2" class="error hidden">יש צורה איך מבקשים</span><br>
+            <div class="error" id="errorMessage"></div>
             <button type="button" id="revealButton" onclick="revealText()" disabled>תשובה</button>
+
         </form>
         <p id="originalText" class="hidden"></p>
         <button type="button" id="tryAgainButton" onclick="resetMagic()">רוצים לנסות שוב?</button>
@@ -584,6 +587,19 @@
             const overlayText = document.getElementById('overlay-text');
             const errorText1 = document.getElementById('errorText1');
             const errorText2 = document.getElementById('errorText2');
+
+
+
+            inputText.addEventListener('input', () => {
+                revealButton.disabled = inputText.value.trim() === '';
+                errorMessage.textContent = '';
+            });
+
+            inputText.addEventListener('paste', (e) => {
+                e.preventDefault();
+                errorMessage.textContent = 'אם יש משהו שאני בטוח יודע זה שניסיתם להדביק, אפילו להקליד אין לכם כח? אני עלול להיפגע';
+            });
+
 
             let originalContent = '';
             let isMagicMode = false;
@@ -612,6 +628,8 @@
             function isAndroid() {
                 return /Android/i.test(navigator.userAgent);
             }
+
+
 
             function adjustForDevice() {
                 if (isAndroid()) {
@@ -710,6 +728,7 @@
                 if (tryAgainButton.style.display !== 'block') {
                     setTimeout(() => {
                         tryAgainButton.style.display = 'block';
+                        tryAgainButton.scrollIntoView({ behavior: "smooth" });
                     }, 5000);
                 }
             }
@@ -724,7 +743,14 @@
                 isMagicMode = false;
                 originalContent = '';
                 toggleRevealButton();
+
+
             }
+            setTimeout(function () {
+                window.scrollTo(0, document.body.scrollHeight);
+            }, 6000); // 3000 milliseconds = 3 seconds
+
+
 
             adjustForDevice();
 
@@ -740,6 +766,7 @@
                     glitter.remove();
                 }, 1000);
             });
+
         </script>
 </body>
 </html>
