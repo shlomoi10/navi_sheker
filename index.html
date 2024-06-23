@@ -236,6 +236,7 @@
                 transform-origin: 60% 60%;
             }
         }
+
         body {
             font-family: 'Heebo', sans-serif;
             direction: rtl;
@@ -346,6 +347,7 @@
             cursor: pointer;
             margin-left: 5px;
         }
+
         #answerContainer {
             background-color: white;
             margin: 20px auto;
@@ -355,6 +357,7 @@
             max-width: 500px;
             font-size: 1.2em;
         }
+
         #originalText {
             width: fit-content;
             margin: 20px auto;
@@ -499,7 +502,7 @@
                 transform: scale(0.5);
             }
         }
-        
+
 
         a:hover::after {
             content: "רוצים להיות קוסמים מורשים?";
@@ -515,10 +518,30 @@
             font-size: 12px;
             opacity: 0.8;
         }
+
+        /* --- הוספת סגנון לסמן כתיבה --- */
+        .cursor {
+            display: inline-block;
+            width: 1.5px;
+            height: 1em;
+            background-color: black;
+            vertical-align: middle;
+            animation: blink-cursor 0.7s steps(1) infinite;
+        }
+
+        @keyframes blink-cursor {
+            0%, 100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
-   
+
     <header>
         <a id="magicLink" href="#" class="svg-container">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 203 148.27">
@@ -756,32 +779,39 @@
             overlayDark.style.display = 'none';
         }
 
-        function revealText() {
-            const inputValue = input.value;
-            if (!validateInput(inputValue)) {
-                originalText.classList.add('hidden');
-                return;
+       function revealText() {
+    const inputValue = input.value;
+    if (!validateInput(inputValue)) {
+        originalText.classList.add('hidden');
+        return;
+    }
+
+    revealButton.disabled = true;
+    showOverlay();
+    setTimeout(function () {
+        document.getElementById('overlay').style.display = 'none';
+        showDarkOverlay();
+        setTimeout(function () {
+            let finalText;
+            if (wasMagicMode) { // בדיקה אם הופעל מצב הקסם
+                finalText = originalContent;
+            } else {
+                finalText = randomResponses[Math.floor(Math.random() * randomResponses.length)];
             }
 
-            revealButton.disabled = true;
-            showOverlay();
-            setTimeout(function () {
-                document.getElementById('overlay').style.display = 'none';
+            originalText.classList.remove('hidden');
+            originalText.classList.add('visible');
+
+            typeText(originalText, finalText, function() {
+                revealButton.disabled = false;
+                showTryAgainButton();
                 showDarkOverlay();
-                setTimeout(function () {
-                    if (wasMagicMode) { // בדיקה אם הופעל מצב הקסם
-                        originalText.textContent = originalContent;
-                    } else {
-                        originalText.textContent = randomResponses[Math.floor(Math.random() * randomResponses.length)];
-                    }
-                    originalText.classList.remove('hidden');
-                    originalText.classList.add('visible');
-                    revealButton.disabled = false;
-                    showTryAgainButton();
-                    showDarkOverlay();
-                }, 500);
-            }, 3000);
-        }
+            });
+
+        }, 500);
+    }, 3000);
+}
+
 
         function resetMagic() {
             input.value = '';
@@ -800,6 +830,32 @@
                 window.scrollTo(0, document.body.scrollHeight);
             }, 2700);
         }
+
+        function typeText(element, text, callback) {
+            element.textContent = '';
+            let index = 0;
+            const cursor = document.createElement('span'); // יצירת סמן כתיבה
+            cursor.className = 'cursor'; // הוספת מחלקה לסמן כתיבה
+            element.appendChild(cursor);
+
+            function type() {
+                if (index < text.length) {
+                    element.textContent = text.substring(0, index + 1);
+                    element.appendChild(cursor); // הוספת סמן כתיבה לטקסט
+                    index++;
+                    setTimeout(type, 200); // מהירות ההקלדה (במילישניות)
+                } else {
+                    cursor.remove(); // הסרת סמן כתיבה בסיום ההקלדה
+                    if (callback) {
+                        callback();
+                    }
+                }
+            }
+
+            type();
+        }
+
+
     </script>
 
 
