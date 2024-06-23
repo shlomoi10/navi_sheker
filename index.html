@@ -39,13 +39,16 @@
         }
 
         svg {
-            width: 20%;
-            position: fixed;
-            bottom: 50%;
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%) translateY(-50%);
+            transform: translate(+10%, +10%); /* מרכז את ה-SVG בכרטיס */
             overflow: visible;
+            z-index: 11; /* מעל הכרטיס */
         }
+
 
         #wand {
             animation: magic 4s ease infinite;
@@ -54,12 +57,13 @@
         svg {
             width: 50px;
             height: 50px;
-            position: fixed;
-            bottom: 2px;
-            left: 40px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
             /* אין צורך יותר בשינוי ה-transform */
             overflow: visible;
-            z-index: 11; /* מעל השקופית */
+            transform: translate(-40%, +10%) scaleX(-1); /* מרכז את ה-SVG בתוך הכרטיס */
+            /*z-index: 11;*/ /* מעל השקופית */
         }
 
         @keyframes magic {
@@ -521,7 +525,7 @@
             opacity: 0.8;
         }
 
-      
+
         .mouse-trail {
             position: fixed;
             width: 15px; /* הגדלת גודל השובל */
@@ -575,7 +579,7 @@
             background-color: transparent;
         }
 
-/*        #originalText {
+        /*        #originalText {
             transition: transform 0.3s ease-in-out;
         }
 
@@ -601,49 +605,119 @@
                 opacity: 0;
             }
         }
+        /*לחצן*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /*font-family: "Poppins", sans-serif;*/
+        }
+
+        /*body {*/
+          /*  justify-content: center;
+            align-items: center;
+            min-height: 100vh;*/
+            /*background: radial-gradient(#480d35, #17151d);
+        }*/
+
+        .box {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            border-radius: 20px;
+            transform-style: preserve-3d;
+            z-index: 13;
+        }
+
+            .box .card {
+                position: relative;
+                background: rgba(255, 255, 255, 0.07);
+                width: 100px;
+                height: 100px; /* הגדרת גובה ורוחב שווים */
+                backdrop-filter: blur(10px);
+                border: 0.5px solid rgba(255, 255, 255, 0.15);
+                border-radius: 20px;
+                box-shadow: 0 25px 45px rgba(0, 0, 0, 0.05);
+                z-index: 12;
+            }
+
+        .elements {
+            position: absolute;
+            top: 10px;
+            left: 5px;
+            width: 60px;
+            height: auto;
+            border-radius: 5px;
+            text-align: center;
+            background: transparent;
+            transform: translateZ(80px);
+            z-index: 14;
+        }
+
+            .elements h2 {
+                font-size: 0.8rem; /* הקטנת גודל הכותרת */
+                font-weight: 600;
+                color: #f6d8d5;
+                text-transform: uppercase;
+            }
+
+            .elements a {
+                font-size: 0.6rem; /* הקטנת גודל הפסקה */
+                color: #b393d3;
+            }
 
     </style>
 </head>
 <body>
 
     <header>
-        <a id="magicLink" href="#" class="svg-container">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 203 148.27">
-                <g id="wand">
-                    <g class="cls-1">
-                        <path d="M194.63,152.18v-7.76C194.6,147,194.6,149.59,194.63,152.18Z" transform="translate(-10 -31.06)" />
-                    </g>
-                    <rect class="cls-2" x="5.07" y="129.83" width="117.08" height="17.1" transform="translate(-77.95 30.6) rotate(-35.06)" />
-                    <rect class="cls-3" x="106.38" y="88.26" width="32.89" height="17.1" transform="translate(-43.33 57.07) rotate(-35.06)" />
-                    <ellipse class="cls-4" cx="136.21" cy="87.42" rx="3.29" ry="8.55" transform="translate(-35.5 63.06) rotate(-35.06)" />
-                    <ellipse class="cls-2" cx="15.6" cy="172.07" rx="3.29" ry="8.55" transform="translate(-106.02 9.13) rotate(-35.06)" />
-                    <ellipse class="cls-3" cx="109.5" cy="106.16" rx="3.29" ry="8.55" transform="translate(-51.12 51.12) rotate(-35.06)" />
-                    <path class="cls-5" d="M138.71,85.25s4.26,6.06,2.68,9L20.15,179.32s-3.27.49-7.53-5.57Z" transform="translate(-10 -31.06)" />
-                </g>
-                <g id="stars">
-                    <g id="star1">
-                        <polygon class="cls-6" points="142.22 4.88 138.59 13.13 147.13 17.7 137.94 19.78 139.9 28.82 132.07 23.15 125.96 29.86 125.38 20.71 115.81 20.03 122.93 14.3 117.1 6.74 126.55 8.74 128.85 0 133.51 8.22 142.22 4.88" />
-                        <polygon class="cls-7" points="142.29 4.89 136.56 13.87 144.96 17.35 136.17 18.98 138.3 26.2 131.33 20.74 125.88 29.85 132.06 23.11 139.91 28.82 137.95 19.81 147.12 17.74 138.59 13.11 142.29 4.89" />
-                    </g>
-                    <g id="star2">
-                        <polygon class="cls-6" points="166.3 14.45 165.13 17.09 167.87 18.55 164.93 19.22 165.55 22.12 163.04 20.3 161.09 22.45 160.9 19.52 157.83 19.3 160.11 17.46 158.25 15.04 161.27 15.68 162.01 12.88 163.51 15.52 166.3 14.45" />
-                        <polygon class="cls-7" points="166.32 14.45 164.48 17.33 167.18 18.44 164.36 18.96 165.04 21.28 162.81 19.53 161.06 22.45 163.04 20.29 165.56 22.12 164.93 19.23 167.87 18.57 165.13 17.08 166.32 14.45" />
-                    </g>
-                    <g id="star3">
-                        <polygon class="cls-6" points="202.01 38.12 194.78 46.34 203 54.75 191.61 53.79 190.56 64.97 183.57 55.54 174.05 61.06 176.73 50.27 165.91 45.98 176.24 41.95 172.26 31.08 182.46 36.84 188.33 27.58 190.71 38.8 202.01 38.12" />
-                        <polygon class="cls-7" points="202.08 38.15 192.17 46.45 200.62 53.55 189.85 52.21 189.67 61.34 183.6 52.48 173.96 61.03 183.58 55.49 190.57 64.97 191.6 53.83 202.97 54.79 194.8 46.31 202.08 38.15" />
-                    </g>
-                    <g id="star4">
-                        <polygon class="cls-6" points="155.07 63.05 153.01 67.75 157.87 70.35 152.64 71.52 153.75 76.67 149.3 73.44 145.83 77.25 145.5 72.05 140.06 71.67 144.1 68.41 140.79 64.11 146.16 65.25 147.47 60.28 150.13 64.95 155.07 63.05" />
-                        <polygon class="cls-7" points="155.11 63.06 151.86 68.17 156.63 70.14 151.63 71.07 152.84 75.17 148.88 72.07 145.78 77.25 149.29 73.42 153.76 76.67 152.65 71.54 157.86 70.36 153.01 67.73 155.11 63.06" />
-                    </g>
-                </g>
-            </svg>
-        </a>
+
+
         <a href="https://shlomoi10.github.io/navi_sheker/">
-            <img id="logo" src="https://shlomoi10.github.io/navi_sheker/logo.png" alt="Wizard Logo">
+            <img id="logo" src="https://shlomoi10.github.io/navi_sheker/logo.png" width="535" height="535" alt="Wizard Logo">
         </a>
     </header>
+    <div class="box">
+        <div class="elements">
+            
+            <a id="magicLink" href="#" class="svg-container">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 203 148.27">
+        <g id="wand">
+            <g class="cls-1">
+                <path d="M194.63,152.18v-7.76C194.6,147,194.6,149.59,194.63,152.18Z" transform="translate(-10 -31.06)" />
+            </g>
+            <rect class="cls-2" x="5.07" y="129.83" width="117.08" height="17.1" transform="translate(-77.95 30.6) rotate(-35.06)" />
+            <rect class="cls-3" x="106.38" y="88.26" width="32.89" height="17.1" transform="translate(-43.33 57.07) rotate(-35.06)" />
+            <ellipse class="cls-4" cx="136.21" cy="87.42" rx="3.29" ry="8.55" transform="translate(-35.5 63.06) rotate(-35.06)" />
+            <ellipse class="cls-2" cx="15.6" cy="172.07" rx="3.29" ry="8.55" transform="translate(-106.02 9.13) rotate(-35.06)" />
+            <ellipse class="cls-3" cx="109.5" cy="106.16" rx="3.29" ry="8.55" transform="translate(-51.12 51.12) rotate(-35.06)" />
+            <path class="cls-5" d="M138.71,85.25s4.26,6.06,2.68,9L20.15,179.32s-3.27.49-7.53-5.57Z" transform="translate(-10 -31.06)" />
+        </g>
+        <g id="stars">
+            <g id="star1">
+                <polygon class="cls-6" points="142.22 4.88 138.59 13.13 147.13 17.7 137.94 19.78 139.9 28.82 132.07 23.15 125.96 29.86 125.38 20.71 115.81 20.03 122.93 14.3 117.1 6.74 126.55 8.74 128.85 0 133.51 8.22 142.22 4.88" />
+                <polygon class="cls-7" points="142.29 4.89 136.56 13.87 144.96 17.35 136.17 18.98 138.3 26.2 131.33 20.74 125.88 29.85 132.06 23.11 139.91 28.82 137.95 19.81 147.12 17.74 138.59 13.11 142.29 4.89" />
+            </g>
+            <g id="star2">
+                <polygon class="cls-6" points="166.3 14.45 165.13 17.09 167.87 18.55 164.93 19.22 165.55 22.12 163.04 20.3 161.09 22.45 160.9 19.52 157.83 19.3 160.11 17.46 158.25 15.04 161.27 15.68 162.01 12.88 163.51 15.52 166.3 14.45" />
+                <polygon class="cls-7" points="166.32 14.45 164.48 17.33 167.18 18.44 164.36 18.96 165.04 21.28 162.81 19.53 161.06 22.45 163.04 20.29 165.56 22.12 164.93 19.23 167.87 18.57 165.13 17.08 166.32 14.45" />
+            </g>
+            <g id="star3">
+                <polygon class="cls-6" points="202.01 38.12 194.78 46.34 203 54.75 191.61 53.79 190.56 64.97 183.57 55.54 174.05 61.06 176.73 50.27 165.91 45.98 176.24 41.95 172.26 31.08 182.46 36.84 188.33 27.58 190.71 38.8 202.01 38.12" />
+                <polygon class="cls-7" points="202.08 38.15 192.17 46.45 200.62 53.55 189.85 52.21 189.67 61.34 183.6 52.48 173.96 61.03 183.58 55.49 190.57 64.97 191.6 53.83 202.97 54.79 194.8 46.31 202.08 38.15" />
+            </g>
+            <g id="star4">
+                <polygon class="cls-6" points="155.07 63.05 153.01 67.75 157.87 70.35 152.64 71.52 153.75 76.67 149.3 73.44 145.83 77.25 145.5 72.05 140.06 71.67 144.1 68.41 140.79 64.11 146.16 65.25 147.47 60.28 150.13 64.95 155.07 63.05" />
+                <polygon class="cls-7" points="155.11 63.06 151.86 68.17 156.63 70.14 151.63 71.07 152.84 75.17 148.88 72.07 145.78 77.25 149.29 73.42 153.76 76.67 152.65 71.54 157.86 70.36 153.01 67.73 155.11 63.06" />
+            </g>
+        </g>
+    </svg>
+</a>
+        </div>
+        <div class="card">
+
+        </div>
+    </div>
     <h1>נביא השקר</h1>
     <p>רוצים לשאול שאלה? נסו אותי</p>
     <form id="magicForm">
@@ -679,8 +753,19 @@
     <p id="originalText" class="hidden"></p>
     <button type="button" id="tryAgainButton" onclick="resetMagic()">רוצים לנסות שוב?</button>
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
     <script>
+        VanillaTilt.init(document.querySelector(".box"), {
+            max: 10,
+            speed: 200,
+            easing: "cubic-bezier(.03,.98,.52,.99)",
+            reverse: true,
+            glare: true,
+            "max-glare": 0.1,
+        });
+    </script>
+    <script>
+
         const links = [
             'https://mitmachim.top/post/808044',
             'https://www.prog.co.il/threads/%D7%9E%D7%A9%D7%97%D7%A7-%D7%A0%D7%91%D7%99%D7%90-%D7%94%D7%A9%D7%A7%D7%A8-%D7%A0%D7%95%D7%A6%D7%A8-%D7%9B%D7%95%D7%9C%D7%95-%D7%A2-%D7%99-ai.980179/'
@@ -855,6 +940,7 @@
             setTimeout(function () {
                 document.getElementById('overlay').style.display = 'none';
                 showDarkOverlay();
+
                 setTimeout(function () {
                     let finalText;
                     if (wasMagicMode) { // בדיקה אם הופעל מצב הקסם
@@ -862,9 +948,9 @@
                     } else {
                         finalText = randomResponses[Math.floor(Math.random() * randomResponses.length)];
                     }
-                    setTimeout(function () {
-                        window.scrollTo(0, document.body.scrollHeight);
-                    }, 10)
+                    //setTimeout(function () {
+                    //    window.scrollTo(0, document.body.scrollHeight);
+                    //}, 10)
                     originalText.classList.remove('hidden');
                     originalText.classList.add('visible');
 
@@ -923,11 +1009,14 @@
             wasMagicMode = false; // איפוס משתנה מצב הקסם
             originalContent = '';
             toggleRevealButton();
-            hideDarkOverlay();
-
             setTimeout(function () {
                 window.scrollTo(0, document.body.scrollHeight);
             }, 2700);
+            hideDarkOverlay();
+
+            //setTimeout(function () {
+            //    window.scrollTo(0, document.body.scrollHeight);
+            //}, 2700);
         }
 
         function typeText(element, text, callback) {
