@@ -601,6 +601,7 @@
                 opacity: 0;
             }
         }
+
     </style>
 </head>
 <body>
@@ -861,7 +862,9 @@
                     } else {
                         finalText = randomResponses[Math.floor(Math.random() * randomResponses.length)];
                     }
-
+                    setTimeout(function () {
+                        window.scrollTo(0, document.body.scrollHeight);
+                    }, 2700)
                     originalText.classList.remove('hidden');
                     originalText.classList.add('visible');
 
@@ -869,7 +872,7 @@
                         revealButton.disabled = false;
                         showTryAgainButton();
                         showDarkOverlay();
-                        createFallingLogos(); // יצירת הלוגואים הנופלים
+                        createFallingLogos(); // יצירת הלוגואים הנופלים רק כאן
                     });
 
                 }, 500);
@@ -881,6 +884,8 @@
             const logoUrl = wasMagicMode ? 'https://shlomoi10.github.io/navi_sheker/like.gif' : 'https://shlomoi10.github.io/navi_sheker/hhh.gif';
             for (let i = 0; i < logoCount; i++) {
                 setTimeout(() => {
+                    if (stopFallingLogos) return; // בדיקה אם להפסיק את יצירת הלוגואים
+
                     const logo = document.createElement('div');
                     logo.className = 'falling-logo';
                     logo.style.backgroundImage = `url('${logoUrl}')`;
@@ -894,11 +899,20 @@
             }
         }
 
+        let stopFallingLogos = false;
+
         revealButton.addEventListener('click', revealText);
         tryAgainButton.addEventListener('click', resetMagic);
         document.addEventListener('keydown', handleEnter);
 
         function resetMagic() {
+            stopFallingLogos = true; // עצירת יצירת לוגואים חדשים
+
+            // הסרת כל הלוגואים הקיימים מה-DOM
+            const logos = document.querySelectorAll('.falling-logo');
+            logos.forEach(logo => logo.remove());
+
+            // שאר הקוד בפונקציה resetMagic
             input.value = '';
             questionInput.value = '';
             originalText.textContent = '';
@@ -919,6 +933,8 @@
         function typeText(element, text, callback) {
             element.textContent = '';
             let index = 0;
+            stopFallingLogos = false; // אפשרות להפעיל שוב את יצירת הלוגואים בעת לחיצה הבאה
+
             const cursor = document.createElement('span'); // יצירת סמן כתיבה
             cursor.className = 'cursor'; // הוספת מחלקה לסמן כתיבה
             element.appendChild(cursor);
@@ -928,7 +944,7 @@
                     element.textContent = text.substring(0, index + 1);
                     element.appendChild(cursor); // הוספת סמן כתיבה לטקסט
                     index++;
-                    setTimeout(type, 200); // מהירות ההקלדה (במילישניות)
+                    setTimeout(type, 120); // מהירות ההקלדה (במילישניות)
                 } else {
                     cursor.remove(); // הסרת סמן כתיבה בסיום ההקלדה
                     if (callback) {
@@ -940,6 +956,8 @@
             type();
         }
     </script>
+
+
 
 
 </body>
