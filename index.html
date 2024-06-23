@@ -236,6 +236,7 @@
                 transform-origin: 60% 60%;
             }
         }
+        /*מפה מתחיל*/
 
         body {
             font-family: 'Heebo', sans-serif;
@@ -247,7 +248,7 @@
             color: #333;
             position: relative;
             min-height: 100vh;
-            cursor: url('https://shlomoi10.github.io/navi_sheker/achbar2.webp') 0 0, auto; /* שינוי מיקום סמן העכבר */
+            cursor: url('https://shlomoi10.github.io/navi_sheker/achbar01.png') 0 0, auto; /* שינוי מיקום סמן העכבר */
         }
 
         header {
@@ -494,6 +495,7 @@
             background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
             box-shadow: 0 0 10px 10px rgba(255,255,255,0.5);
             animation: fadeOut 1s forwards;
+            z-index: 11; /* מעל השקופית */
         }
 
         @keyframes fadeOut {
@@ -519,6 +521,67 @@
             opacity: 0.8;
         }
 
+      
+        .mouse-trail {
+            position: fixed;
+            width: 15px; /* הגדלת גודל השובל */
+            height: 15px; /* הגדלת גודל השובל */
+            background: rgba(255, 255, 255, 0.9); /* צבע לבן בולט יותר */
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.9); /* הבלטת הצל */
+            animation: glitter 1.5s linear;
+            z-index: 12; /* מעל השקופית */
+        }
+
+        @keyframes glitter {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-150px); /* שובל ארוך יותר */
+            }
+        }
+
+        .falling-logo {
+            position: absolute;
+            width: 100px; /* הגדלת גודל הלוגו */
+            height: 100px; /* הגדלת גודל הלוגו */
+            background-size: contain;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            animation: fall 4s linear forwards;
+            z-index: 12; /* מעל השקופית */
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100%);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 1px;
+            background-color: transparent;
+        }
+
+/*        #originalText {
+            transition: transform 0.3s ease-in-out;
+        }
+
+            #originalText.visible {
+                transform: scale(1.1);
+            }*/
         /* --- הוספת סגנון לסמן כתיבה --- */
         .cursor {
             display: inline-block;
@@ -760,9 +823,9 @@
 
         document.addEventListener('mousemove', function (e) {
             const glitter = document.createElement('div');
-            glitter.className = 'glitter-trail';
-            glitter.style.top = `${e.clientY - 10}px`;
-            glitter.style.left = `${e.clientX + 0}px`;
+            glitter.className = 'mouse-trail';
+            glitter.style.top = `${e.clientY + 60}px`;
+            glitter.style.left = `${e.clientX + 40}px`;
             document.body.appendChild(glitter);
             setTimeout(() => {
                 glitter.remove();
@@ -779,39 +842,61 @@
             overlayDark.style.display = 'none';
         }
 
-       function revealText() {
-    const inputValue = input.value;
-    if (!validateInput(inputValue)) {
-        originalText.classList.add('hidden');
-        return;
-    }
-
-    revealButton.disabled = true;
-    showOverlay();
-    setTimeout(function () {
-        document.getElementById('overlay').style.display = 'none';
-        showDarkOverlay();
-        setTimeout(function () {
-            let finalText;
-            if (wasMagicMode) { // בדיקה אם הופעל מצב הקסם
-                finalText = originalContent;
-            } else {
-                finalText = randomResponses[Math.floor(Math.random() * randomResponses.length)];
+        function revealText() {
+            const inputValue = input.value;
+            if (!validateInput(inputValue)) {
+                originalText.classList.add('hidden');
+                return;
             }
 
-            originalText.classList.remove('hidden');
-            originalText.classList.add('visible');
-
-            typeText(originalText, finalText, function() {
-                revealButton.disabled = false;
-                showTryAgainButton();
+            revealButton.disabled = true;
+            showOverlay();
+            setTimeout(function () {
+                document.getElementById('overlay').style.display = 'none';
                 showDarkOverlay();
-            });
+                setTimeout(function () {
+                    let finalText;
+                    if (wasMagicMode) { // בדיקה אם הופעל מצב הקסם
+                        finalText = originalContent;
+                    } else {
+                        finalText = randomResponses[Math.floor(Math.random() * randomResponses.length)];
+                    }
 
-        }, 500);
-    }, 3000);
-}
+                    originalText.classList.remove('hidden');
+                    originalText.classList.add('visible');
 
+                    typeText(originalText, finalText, function () {
+                        revealButton.disabled = false;
+                        showTryAgainButton();
+                        showDarkOverlay();
+                        createFallingLogos(); // יצירת הלוגואים הנופלים
+                    });
+
+                }, 500);
+            }, 3000);
+        }
+
+        function createFallingLogos() {
+            const logoCount = 100; // מספר הלוגואים שייפלו
+            const logoUrl = wasMagicMode ? 'https://shlomoi10.github.io/navi_sheker/like.gif' : 'https://shlomoi10.github.io/navi_sheker/hhh.gif';
+            for (let i = 0; i < logoCount; i++) {
+                setTimeout(() => {
+                    const logo = document.createElement('div');
+                    logo.className = 'falling-logo';
+                    logo.style.backgroundImage = `url('${logoUrl}')`;
+                    logo.style.left = `${Math.random() * window.innerWidth}px`;
+                    logo.style.top = `${-50}px`;
+                    document.body.appendChild(logo);
+                    setTimeout(() => {
+                        logo.remove();
+                    }, 4500); // זמן כולל עד שהלוגו נעלם
+                }, i * 100); // השהיה בין יצירת לוגו ללוגו
+            }
+        }
+
+        revealButton.addEventListener('click', revealText);
+        tryAgainButton.addEventListener('click', resetMagic);
+        document.addEventListener('keydown', handleEnter);
 
         function resetMagic() {
             input.value = '';
@@ -854,8 +939,6 @@
 
             type();
         }
-
-
     </script>
 
 
