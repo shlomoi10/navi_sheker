@@ -769,11 +769,14 @@
     <script>
 
         const links = [
-            'https://mitmachim.top/post/808044',
-            'https://www.prog.co.il/threads/%D7%9E%D7%A9%D7%97%D7%A7-%D7%A0%D7%91%D7%99%D7%90-%D7%94%D7%A9%D7%A7%D7%A8-%D7%A0%D7%95%D7%A6%D7%A8-%D7%9B%D7%95%D7%9C%D7%95-%D7%A2-%D7%99-ai.980179/'
-        ];
-        const randomLink = links[Math.floor(Math.random() * links.length)];
-        document.getElementById('magicLink').href = randomLink;
+    'https://mitmachim.top/post/808044',
+    'https://www.prog.co.il/threads/%D7%9E%D7%A9%D7%97%D7%A7-%D7%A0%D7%91%D7%99%D7%90-%D7%94%D7%A9%D7%A7%D7%A8-%D7%A0%D7%95%D7%A6%D7%A8-%D7%9B%D7%95%D7%9C%D7%95-%D7%A2-%D7%99-ai.980179/'
+];
+const randomLink = links[Math.floor(Math.random() * links.length)];
+const magicLink = document.getElementById('magicLink');
+magicLink.href = randomLink;
+magicLink.target = '_blank';
+
         const input = document.getElementById('inputText');
         const questionInput = document.getElementById('questionText');
         const revealButton = document.getElementById('revealButton');
