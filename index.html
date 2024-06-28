@@ -272,6 +272,10 @@
             /* margin: 5px 0; */
         }
 
+        p1 {
+            font-size: 0.8em;
+            font-weight: bold;
+        }
         input[type="text"], textarea, button {
             font-family: 'Open Sans', sans-serif;
         }
@@ -665,6 +669,36 @@
                 font-size: 0.6rem; /* הקטנת גודל הפסקה */
                 color: #b393d3;
             }
+
+        #likeContainer {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        #likeButton {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+            #likeButton:hover {
+                background-color: #0056b3;
+            }
+
     </style>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RC0RJLX1P2"></script>
@@ -738,13 +772,16 @@
         <p>רוצים תשובה לשאלה? תקראו לי</p>
         <p>
             יש לקרוא לי ע"י:
-            <span class="tooltip">
-                נביא השקר האם תוכל לענות לי בבקשה?
-                <span class="info-icon">
-                    i
-                    <span class="tooltiptext">מידי פעם אפשר לקרוא לי רק עם "נביא השקר". שימו לב לא להגזים, זה מזלזל בי</span>
-                </span>
-            </span>
+           
+           <span class="tooltip">
+               <p1>
+                   נביא השקר האם תוכל לענות לי בבקשה?
+                   </p1>
+                   <span class="info-icon">
+                       i
+                       <span class="tooltiptext">מידי פעם אפשר לקרוא לי רק עם "נביא השקר". שימו לב לא להגזים, זה מזלזל בי</span>
+                   </span>
+</span>
         </p>
         <input type="text" id="inputText" autocomplete="off" placeholder="" onkeydown="handleEnter(event)"><br>
         <span id="errorText1" class="error hidden">אתה מזלזל בי</span>
@@ -775,6 +812,19 @@
             glare: true,
             "max-glare": 0.1,
         });
+    </script>
+
+    <script>
+    function handleLike() {
+            // שליחת אירוע ל-Google Analytics
+            gtag('event', 'like_button_clicked', {
+                'event_category': 'engagement',
+                'event_label': 'like_button'
+            });
+
+            // הצגת הודעת תודה (אופציונלי)
+            alert('תודה על הלייק!');
+        }
     </script>
     <script>
         const links = [
@@ -831,7 +881,7 @@
         let magicChar = '';
 
         const beginnings = ["אתם חושבים ", "אני מבין ", "נראה לך ", "למה נראה לך "];
-        const middles = ["שיש לי כח,", "שאני לא עייף עכשיו,","שאני לא רעב,","שאני כל הזמן פעיל", "שאין לי חיים חוץ מלענות תשובות"];
+        const middles = ["שיש לי כח,", "שאני לא עייף עכשיו,", "שאני לא רעב,", "שאני כל הזמן פעיל", "שאין לי חיים חוץ מלענות תשובות"];
         const endings = ["אז אתם טועים", "אז תחשבו שוב", "נראה לכם???", "אז תדעו שאני ממש עסוק"];
 
         function generateRandomAnswer() {
@@ -1071,7 +1121,10 @@
 
 
 
-
+    <div id="likeContainer">
+        <p>אהבתם?</p>
+        <button id="likeButton" onclick="handleLike()">👍 לייק</button>
+    </div>
 
 </body>
 </html>
