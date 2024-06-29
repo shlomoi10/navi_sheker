@@ -814,33 +814,17 @@
         });
     </script>
 
-   <script>
-        function handleLike() {
+    <script>
+    function handleLike() {
             // שליחת אירוע ל-Google Analytics
             gtag('event', 'like_button_clicked', {
                 'event_category': 'engagement',
                 'event_label': 'like_button'
             });
 
-            // עדכון מונה הלחיצות
-            fetch('https://api.countapi.xyz/hit/shlomoi10_navi_sheker/like_button_clicks')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('like-counter').innerText = `Likes: ${data.value}`;
-            });
-
             // הצגת הודעת תודה (אופציונלי)
             alert('תודה על הלייק!');
         }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            // עדכון המונה בהתחלה
-            fetch('https://api.countapi.xyz/get/shlomoi10_navi_sheker/like_button_clicks')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('like-counter').innerText = `Likes: ${data.value}`;
-            });
-        });
     </script>
     <script>
         const links = [
@@ -1141,7 +1125,6 @@
         <p>אהבתם?</p>
         <button id="likeButton" onclick="handleLike()">👍 לייק</button>
     </div>
-    <div id="like-counter">Likes: Loading...</div>
 
 </body>
 </html>
