@@ -5,4 +5,5 @@ export const ASSETS = {
   logo: `${base}logo.png`,
   likeGif: `${base}like.gif`,
   prophetGif: `${base}hhh.gif`,
+  builderLogo: `${base}yesh-click-logo.svg`,
 } as const

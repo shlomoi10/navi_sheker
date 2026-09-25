@@ -14,6 +14,17 @@
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        analytics_storage: 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied'
+      });
+      // Must match CONSENT_STORAGE_KEY in src/lib/consent.ts
+      try {
+        var storedConsent = JSON.parse(localStorage.getItem('navi_sheker_cookie_consent') || 'null');
+        if (storedConsent && storedConsent.choice === 'all') gtag('consent', 'update', { analytics_storage: 'granted' });
+      } catch (e) {}
       gtag('js', new Date());
 
       gtag('config', 'G-RC0RJLX1P2');
