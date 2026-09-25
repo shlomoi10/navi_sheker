@@ -55,7 +55,6 @@ export const TIMINGS = {
   typingSpeed: 120,
   tryAgainDelay: 2500,
   resetScrollDelay: 2700,
-  mouseTrailLifetime: 1000,
   fallingLogoInterval: 100,
   fallingLogoLifetime: 4500,
 } as const

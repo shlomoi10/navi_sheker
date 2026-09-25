@@ -26,7 +26,6 @@
   --animate-twinkle-2: twinkle-2 4s ease infinite;
   --animate-twinkle-3: twinkle-3 4s ease infinite;
   --animate-twinkle-4: twinkle-4 4s ease infinite;
-  --animate-glitter: glitter 1.5s linear;
   --animate-fall: fall 4s linear forwards;
   --animate-answer-pulse: answer-pulse 1s ease-in-out infinite alternate;
   --animate-caret: caret 0.7s steps(1) infinite;
@@ -132,17 +131,6 @@
       transform: scale(1);
       opacity: 1;
       transform-origin: 60% 60%;
-    }
-  }
-
-  @keyframes glitter {
-    from {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    to {
-      opacity: 0;
-      transform: translateY(-150px);
     }
   }
 

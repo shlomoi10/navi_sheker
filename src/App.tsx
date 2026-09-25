@@ -1,5 +1,6 @@
 import { AnswerDisplay } from './components/AnswerDisplay'
 import { FallingLogos } from './components/FallingLogos'
+import GlowCursor from './components/GlowCursor'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { LikeWidget } from './components/LikeWidget'
@@ -7,16 +8,11 @@ import { DarkOverlay, LoadingOverlay } from './components/Overlays'
 import { ProphetForm } from './components/ProphetForm'
 import { TryAgainButton } from './components/TryAgainButton'
 import { WandCard } from './components/WandCard'
-import { useMouseTrail } from './hooks/useMouseTrail'
 import { useProphet } from './hooks/useProphet'
-
-const MOUSE_TRAIL_CLASS =
-  'pointer-events-none fixed z-12 size-[15px] animate-glitter rounded-full bg-white/95 shadow-[0_0_14px_rgb(140_126_224/55%)]'
 
 export default function App() {
   const { tryAgainRef, form, answer, loadingMessage, isDarkOverlayVisible, isTryAgainVisible, fallingLogos, resetMagic } =
     useProphet()
-  useMouseTrail(MOUSE_TRAIL_CLASS)
 
   return (
     <>
@@ -32,6 +28,19 @@ export default function App() {
       </main>
       <LikeWidget />
       <FallingLogos logos={fallingLogos} />
+      <GlowCursor
+        aria-hidden="true"
+        listenTarget="window"
+        className="pointer-events-none"
+        style={{ position: 'fixed', inset: 0, zIndex: 12 }}
+        color="#8c7ee0"
+        secondaryColor="#6fbfa3"
+        trailLength={40}
+        trailWidth={6}
+        glowIntensity={1.4}
+        blendMode="normal"
+        maxDevicePixelRatio={1}
+      />
     </>
   )
 }
