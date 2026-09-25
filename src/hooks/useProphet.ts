@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type ClipboardEvent, type FormEvent, type KeyboardEvent } from 'react'
 import { flushSync } from 'react-dom'
-import { ASSETS } from '../constants/assets'
 import {
   ALWAYS_MAGIC_CHAR,
   MAGIC_END_CHAR,
@@ -13,7 +12,7 @@ import {
 } from '../constants/content'
 import { getMagicChar } from '../lib/device'
 import { pickProphecy, pickRandom } from '../lib/random'
-import { useFallingLogos } from './useFallingLogos'
+import { useCelebration } from './useCelebration'
 import { useTypewriter } from './useTypewriter'
 
 export function useProphet() {
@@ -44,7 +43,7 @@ export function useProphet() {
   const [isAnswerShown, setIsAnswerShown] = useState(false)
 
   const typewriter = useTypewriter(TIMINGS.typingSpeed)
-  const fallingLogos = useFallingLogos()
+  const celebration = useCelebration()
 
   const toggleRevealButton = useCallback(() => {
     const callValue = callInputRef.current?.value ?? ''
@@ -120,7 +119,7 @@ export function useProphet() {
   }, [])
 
   const { type, clear: clearTypedText } = typewriter
-  const { start: startFallingLogos, stop: stopFallingLogos, resume: resumeFallingLogos } = fallingLogos
+  const { start: startFallingLogos, stop: stopFallingLogos, resume: resumeFallingLogos } = celebration
 
   const revealText = useCallback(() => {
     if (revealDisabledRef.current) return
@@ -147,7 +146,7 @@ export function useProphet() {
           setRevealDisabled(false)
           showTryAgainButton()
           setIsDarkOverlayVisible(true)
-          startFallingLogos(wasMagicModeRef.current ? ASSETS.likeGif : ASSETS.prophetGif)
+          startFallingLogos(wasMagicModeRef.current ? 'like' : 'laugh')
         })
       }, TIMINGS.beforeAnswer)
     }, TIMINGS.loadingOverlay)
@@ -209,7 +208,7 @@ export function useProphet() {
     loadingMessage,
     isDarkOverlayVisible,
     isTryAgainVisible,
-    fallingLogos: fallingLogos.logos,
+    celebration: { drops: celebration.drops, burst: celebration.burst },
     resetMagic,
   }
 }

@@ -1,5 +1,5 @@
 import { AnswerDisplay } from './components/AnswerDisplay'
-import { FallingLogos } from './components/FallingLogos'
+import { Celebration } from './components/Celebration'
 import GlowCursor from './components/GlowCursor'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
@@ -11,7 +11,7 @@ import { WandCard } from './components/WandCard'
 import { useProphet } from './hooks/useProphet'
 
 export default function App() {
-  const { tryAgainRef, form, answer, loadingMessage, isDarkOverlayVisible, isTryAgainVisible, fallingLogos, resetMagic } =
+  const { tryAgainRef, form, answer, loadingMessage, isDarkOverlayVisible, isTryAgainVisible, celebration, resetMagic } =
     useProphet()
 
   return (
@@ -27,7 +27,7 @@ export default function App() {
         <TryAgainButton ref={tryAgainRef} visible={isTryAgainVisible} onClick={resetMagic} />
       </main>
       <LikeWidget />
-      <FallingLogos logos={fallingLogos} />
+      <Celebration {...celebration} />
       <GlowCursor
         aria-hidden="true"
         listenTarget="window"

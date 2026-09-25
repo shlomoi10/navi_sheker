@@ -26,7 +26,6 @@
   --animate-twinkle-2: twinkle-2 4s ease infinite;
   --animate-twinkle-3: twinkle-3 4s ease infinite;
   --animate-twinkle-4: twinkle-4 4s ease infinite;
-  --animate-fall: fall 4s linear forwards;
   --animate-answer-pulse: answer-pulse 1s ease-in-out infinite alternate;
   --animate-caret: caret 0.7s steps(1) infinite;
   --animate-fade-in: fade-in 0.4s ease;
@@ -134,17 +133,6 @@
     }
   }
 
-  @keyframes fall {
-    0% {
-      transform: translateY(-100%);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(100vh);
-      opacity: 0;
-    }
-  }
-
   @keyframes answer-pulse {
     from {
       transform: scale(1);
@@ -168,6 +156,95 @@
     from {
       opacity: 0;
     }
+  }
+}
+
+/* Celebration (like / laugh) – driven by per-drop CSS variables set inline */
+@keyframes celebration-drop {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  8%,
+  78% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--drift), calc(100vh + 12rem), 0) rotate(var(--spin));
+    opacity: 0;
+  }
+}
+
+@keyframes celebration-pop {
+  from {
+    scale: 0.4;
+  }
+  70% {
+    scale: 1.08;
+  }
+}
+
+@keyframes celebration-sway {
+  from {
+    translate: -10px 0;
+  }
+  to {
+    translate: 10px 0;
+  }
+}
+
+@keyframes celebration-flutter {
+  from {
+    transform: rotate3d(1, 0.4, 0.2, 0deg);
+  }
+  to {
+    transform: rotate3d(1, 0.4, 0.2, 360deg);
+  }
+}
+
+@keyframes celebration-glow {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes celebration-ring {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+@keyframes celebration-hero {
+  0% {
+    transform: scale(0.3) rotate(-12deg);
+    opacity: 0;
+  }
+  18% {
+    transform: scale(1.12) rotate(4deg);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(0.96) rotate(-2deg);
+  }
+  40%,
+  72% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-48px) scale(0.85);
+    opacity: 0;
   }
 }
 
