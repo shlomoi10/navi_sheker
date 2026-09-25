@@ -187,7 +187,6 @@
       radial-gradient(circle at 95% 20%, var(--color-mint-soft) 0, transparent 40%),
       radial-gradient(circle at 50% 100%, var(--color-peach-soft) 0, transparent 50%);
     background-attachment: fixed;
-    cursor: url('/achbar01.png') 0 0, auto;
   }
 
   button:not(:disabled) {
